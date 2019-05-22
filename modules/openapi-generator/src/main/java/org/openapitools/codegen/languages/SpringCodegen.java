@@ -90,6 +90,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean virtualService = false;
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
+
     protected boolean springDataJpa = false;
 
     public SpringCodegen() {
@@ -732,6 +733,14 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setReturnSuccessCode(boolean returnSuccessCode) {
         this.returnSuccessCode = returnSuccessCode;
+    }
+
+    public boolean isSpringDataJpa() {
+        return springDataJpa;
+    }
+
+    public void setSpringDataJpa(boolean springDataJpa) {
+        this.springDataJpa = springDataJpa;
     }
 
     @Override
