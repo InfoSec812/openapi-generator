@@ -67,6 +67,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String API_FIRST = "apiFirst";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
+    public static final String SPRING_DATA_JPA = "springDataJpa";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -89,6 +90,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean virtualService = false;
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
+    protected boolean springDataJpa = false;
 
     public SpringCodegen() {
         super();
@@ -131,6 +133,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters", useOptional));
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
+        cliOptions.add(CliOption.newBoolean(SPRING_DATA_JPA, "Enable Spring Data JPA and enable parsing x-jpa-* from OpenAPI", springDataJpa));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
