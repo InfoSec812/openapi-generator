@@ -284,6 +284,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setReturnSuccessCode(Boolean.valueOf(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
 
+        if (additionalProperties.containsKey(SPRING_DATA_JPA)) {
+            this.setSpringDataJpa(Boolean.valueOf(additionalProperties.get(SPRING_DATA_JPA).toString()));
+        }
+
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
 
