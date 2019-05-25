@@ -21,12 +21,15 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +71,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String SPRING_DATA_JPA = "springDataJpa";
+    public static final String SPRING_DATA_OR_VIRTUAL_SERVICE = "springDataOrVirtualService";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -92,6 +96,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean returnSuccessCode = false;
 
     protected boolean springDataJpa = false;
+
+    protected boolean springDataOrVirtualService = false;
 
     public SpringCodegen() {
         super();
@@ -286,6 +292,11 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(SPRING_DATA_JPA)) {
             this.setSpringDataJpa(Boolean.valueOf(additionalProperties.get(SPRING_DATA_JPA).toString()));
+        }
+
+        if (additionalProperties.containsKey(SPRING_DATA_JPA) || additionalProperties.containsKey(VIRTUAL_SERVICE)) {
+            this.setSpringDataOrVirtualService(Boolean.valueOf(additionalProperties.get(SPRING_DATA_JPA).toString()) || Boolean.valueOf(additionalProperties.get(VIRTUAL_SERVICE).toString()));
+            additionalProperties.put(SPRING_DATA_OR_VIRTUAL_SERVICE, true);
         }
 
         typeMapping.put("file", "Resource");
@@ -747,9 +758,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.springDataJpa = springDataJpa;
     }
 
+    public boolean isSpringDataOrVirtualService() {
+        return springDataOrVirtualService;
+    }
+
+    public void setSpringDataOrVirtualService(boolean springDataOrVirtualService) {
+        this.springDataOrVirtualService = springDataOrVirtualService;
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+        LOGGER.info("Vendor Extensions For Field: " + property.getVendorExtensions().keySet().stream().collect(Collectors.joining(",")));
 
         if ("null".equals(property.example)) {
             property.example = null;
@@ -768,6 +788,19 @@ public class SpringCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonCreator");
             }
         }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModels(objs);
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo: models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel model = (CodegenModel) mo.get("model");
+            String modelName = model.getName();
+            LOGGER.info("Vendor Extensions: " + model.getVendorExtensions().keySet().stream().collect(Collectors.joining(",")));
+        }
+        return objs;
     }
 
     @Override

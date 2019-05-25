@@ -3,6 +3,11 @@
  */{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+{{#springDataJpa}}
+@Entity
+{{#vendorExtensions.x-jpa-table-name?}}@Table(name = "{{vendorExtensions.x-jpa-table-name}}"){{/vendorExtensions.x-jpa-table-name?}}
+{{#vendorExtensions.x-jpa-additional-entity-annotations}}{{property}}{{/vendorExtensions.x-jpa-additional-entity-annotations}}
+{{/springDataJpa}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends ResourceSupport {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
@@ -28,6 +33,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
   {{/gson}}
   {{#isContainer}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
+  {{#springDataJpa}}
+  {{#vendorExtensions.x-jpa-id}}@Id{{/vendorExtensions.x-jpa-id}}
+  {{#vendorExtensions.x-jpa-column-name?}}@Column(name = "{{vendorExtensions.x-jpa-column-name}}"}{{/vendorExtensions.x-jpa-column-name?}}
+  {{#vendorExtensions.x-jpa-transient}}@Transient{{/vendorExtensions.x-jpa-transient}}
+  {{#vendorExtensions.x-jpa-additional-field-annotations}}{{property}}{{/vendorExtensions.x-jpa-additional-field-annotations}}
+  {{/springDataJpa}}
   private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
   {{/isContainer}}
   {{^isContainer}}

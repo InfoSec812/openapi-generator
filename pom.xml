@@ -1290,7 +1290,7 @@
         <module>modules/openapi-generator</module>
         <module>modules/openapi-generator-cli</module>
         <module>modules/openapi-generator-maven-plugin</module>
-        <module>modules/openapi-generator-gradle-plugin</module>
+        <!-- <module>modules/openapi-generator-gradle-plugin</module> -->
         <module>modules/openapi-generator-online</module>
         <module>modules/openapi-generator-core</module>
     </modules>

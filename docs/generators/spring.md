@@ -63,3 +63,4 @@ sidebar_label: spring
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
 |returnSuccessCode|Generated server returns 2xx code| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application using the SpringFox integration.</dd><dt>**spring-mvc**</dt><dd>Spring-MVC Server application using the SpringFox integration.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dl>|spring-boot|
+|springDataJpa|Enable adding JPA annotations to models via vendor extensions| true/false |false

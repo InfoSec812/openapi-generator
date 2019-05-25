@@ -7,6 +7,12 @@ import org.openapitools.jackson.nullable.JsonNullable;
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
+{{#springDataJpa}}
+import javax.persistence.Entity;
+{{#vendorExtensions.x-jpa-table-name?}}import javax.persistence.Table{{/vendorExtensions.x-jpa-table-name?}}
+{{#vendorExtensions.x-jpa-additional-imports?}}import {{property}};{{/vendorExtensions.x-jpa-additional-imports?}}
+{{#vendorExtensions.x-jpa-additional-static-imports?}}import static {{property}};{{/vendorExtensions.x-jpa-additional-static-imports?}}
+{{/springDataJpa}}
 {{#useBeanValidation}}
 import javax.validation.Valid;
 import javax.validation.constraints.*;
